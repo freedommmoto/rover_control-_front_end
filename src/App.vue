@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav>
-      <h2>Rover Project</h2>
+      <h2>Rover Position</h2>
     </nav>
     <router-view/>
   </div>

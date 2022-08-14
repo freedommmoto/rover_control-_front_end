@@ -1,8 +1,7 @@
 <template>
-  <div class="about">
-    <h1>Rover Status: </h1>
-    <RoverMap v-if="this.mapSize > 0" :mapSize="8" :xx="this.xx+1" :yy="this.yy+1"
-              :direction="this.direction"></RoverMap>
+  <div class="rover-body">
+    <RoverMap v-if="this.edge" :mapSize="8" :xx="this.xx+1" :yy="this.yy+1"
+              :direction="this.direction" :edge="this.edge"></RoverMap>
     <MoveRoverBtn :rover_step="this.roverStep" :current_step="this.currentStep"
                   :status_text_format="this.statusTextFormat"></MoveRoverBtn>
   </div>
@@ -28,7 +27,8 @@ export default {
       currentStep: 0,
       mapData: null,
       roverStatus: null,
-      apiUrl: config.$api_url
+      apiUrl: config.$api_url,
+      edge: [],
     }
   },
   mounted() {
@@ -36,6 +36,12 @@ export default {
     this.getRoverStatus(0)
   },
   methods: {
+    makeNewMap() {
+      let maxEdge = 8
+      for (let i = maxEdge; i > 0; i--) {
+        this.edge.push(i);
+      }
+    },
     async getMapInfo() {
       try {
         const res = await axios.get(this.apiUrl + '/map-info')
@@ -45,10 +51,10 @@ export default {
         this.mapData = res.data
         this.mapSize = this.mapData.map_size
         this.roverStep = this.mapData.rover_step
+        this.makeNewMap()
       } catch (err) {
         alert(err)
       }
-
     },
     async getRoverStatus(step) {
       try {
@@ -70,3 +76,9 @@ export default {
 }
 
 </script>
+<style>
+.rover-body {
+  max-width: 900px;
+  margin: 0 auto;
+}
+</style>

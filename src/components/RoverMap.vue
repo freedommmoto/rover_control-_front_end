@@ -1,20 +1,26 @@
 <template>
-  <div style="">
+  <div style="padding: 20px">
     <div v-if="xx">
-      <h5 class="init_map_x">{{ EdgeXX }}</h5>
-      <h5 class="init_map_y">{{ EdgeYY }}</h5>
+      <h5 class="directionNSymbol">N</h5>
+
       <table>
-        <tr v-for="positionX in mapSize" :key="positionX">
-          <td v-for="positionY in mapSize" :key="positionY">
+        <tr v-for="positionY in edge" :key="positionY">
+          <td v-for="positionX in edge.length" :key="positionX">
             <div v-if="positionX === xx && positionY === yy">
-              {{ direction }}
+              <img src="@/assets/rover_pic.jpeg" :class="`direction${direction}`" width="20px" height="20px"/>
             </div>
             <div v-else>
-              &nbsp;
+              <div style="width: 20px;height: 30px ">&nbsp;</div>
             </div>
           </td>
         </tr>
       </table>
+
+      <h5 class="directionWSymbol">W</h5>
+      <h5 class="directionESymbol">E</h5>
+
+      <h5 class="init_map_x">{{ EdgeXX }}</h5>
+      <h5 class="init_map_y">{{ EdgeYY }}</h5>
     </div>
     <div v-else>
       loading
@@ -25,32 +31,64 @@
 <script>
 export default {
   name: 'RoverMap',
-  props: ['mapSize', 'xx', 'yy', 'direction'],
+  props: ['mapSize', 'xx', 'yy', 'direction', 'edge'],
   data() {
     return {
-      EdgeXX: 1,
-      EdgeYY: 1,
+      EdgeXX: 0,
+      EdgeYY: 0,
     }
   },
-  computed: {
-    reverseItems() {
-      return this.items.slice().reverse();
-    }
-  }
 
 }
 </script>
 <style>
+
+.directionN {
+  transform: rotate(0deg);
+}
+
+.directionNSymbol {
+  position: absolute;
+  left: 49%;
+  margin-top: -30px
+}
+
+.directionW {
+  transform: rotate(270deg);
+}
+
+.directionWSymbol {
+  float: left;
+  margin-top: -200px;
+  margin-left: -22px
+}
+
+.directionE {
+  transform: rotate(90deg);
+}
+
+.directionESymbol {
+  float: right;
+  margin-top: -200px;
+  margin-right: -22px
+}
+
+.directionS {
+  transform: rotate(180deg);
+}
+
 .init_map_y {
+  opacity: 0.4;
   position: absolute;
   margin-top: 12px;
-  margin-left: -10px
+  margin-left: 18px
 }
 
 .init_map_x {
+  opacity: 0.3;
   position: absolute;
   margin-top: -22px;
-  margin-left: 10px
+  margin-left: -18px
 }
 
 table {
