@@ -3,8 +3,8 @@
 
     <div class="center">
       <div>
-      <a v-if="this.current_step==0" href="#" @click="back" class="previous">&laquo; Previous</a>
-      <a v-else href="#" @click="back" class="next">&laquo; Previous</a>
+        <a v-if="this.current_step==0" href="#" @click="back" class="previous">&laquo; Previous</a>
+        <a v-else href="#" @click="back" class="next">&laquo; Previous</a>
       </div>
 
       <div>
@@ -15,8 +15,8 @@
     </div>
 
     <div>
-      <h1>Step : {{current_step}}</h1>
-      <h4>Position: {{status_text_format}}</h4>
+      <h1>Step : {{ current_step }}</h1>
+      <h4>Position: {{ status_text_format }}</h4>
     </div>
   </div>
 </template>
@@ -24,16 +24,16 @@
 <script>
 export default {
   name: 'MoverRoverBtb',
-  props: ['rover_step','current_step','status_text_format'],
+  props: ['rover_step', 'current_step', 'status_text_format'],
   methods: {
-    back(){
-      if (this.current_step-1 >= 0){
-        this.$parent.getRoverStatus(this.current_step-1)
+    back() {
+      if (this.current_step - 1 >= 0) {
+        this.$parent.getRoverStatus(this.current_step - 1)
       }
     },
-    next(){
-      if (this.current_step+1 <= this.rover_step){
-        this.$parent.getRoverStatus(this.current_step+1)
+    next() {
+      if (this.current_step + 1 <= this.rover_step) {
+        this.$parent.getRoverStatus(this.current_step + 1)
       }
     },
   }
@@ -41,17 +41,20 @@ export default {
 </script>
 
 <style>
-.clear{
+.clear {
   clear: both;
 }
-.center{
+
+.center {
   width: 205px;
-  margin: 0 auto;
+  margin: 10px auto;
 }
+
 div a {
   float: left;
   margin-left: 10px;
 }
+
 a {
   text-decoration: none;
   display: inline-block;
