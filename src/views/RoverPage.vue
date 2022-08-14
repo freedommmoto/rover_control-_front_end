@@ -1,26 +1,29 @@
 <template>
   <div class="about">
-    <h1>Map Data: </h1>
-    <div>
-      {{mapData}}
-    </div>
     <h1>Rover Status: </h1>
     <div>
       {{roverStatus}}
+    </div>]
+    <div>
+      {{current_step}}
     </div>
+    <MoveRoverBtn :rover_step="this.rover_step" :current_step="this.current_step" :status_text_format="this.roverStatus.status_text_format" ></MoveRoverBtn>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import { config } from '../../config';
-
+import MoveRoverBtn from '../components/MoveRoverBtn.vue';
 export default {
   name: "Rover-page",
+  components: {MoveRoverBtn},
   data() {
     return {
-      mapData:null,
-      roverStatus:null,
+      rover_step:0,
+      current_step: 0,
+      mapData: null,
+      roverStatus: null,
       apiUrl: config.$api_url
     }
   },
@@ -36,6 +39,7 @@ export default {
           throw "no map data found from api";
         }
         this.mapData = res.data
+        this.rover_step = res.data.rover_step
       }  catch (err) {
         alert(err)
       }
@@ -48,6 +52,7 @@ export default {
           throw "no rover data found from api";
         }
         this.roverStatus = res.data
+        this.current_step = res.data.current_step
       }  catch (err) {
         alert(err)
       }
