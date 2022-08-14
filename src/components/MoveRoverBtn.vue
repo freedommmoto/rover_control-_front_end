@@ -58,9 +58,11 @@ a {
   padding: 8px 16px;
 }
 
-a:hover {
-  background-color: #ddd;
-  color: black;
+@media (hover: hover) and (pointer: fine) {
+  a:hover {
+    background-color: #a2d2c0;
+    color: black;
+  }
 }
 
 .previous {
