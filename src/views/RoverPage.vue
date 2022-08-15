@@ -1,7 +1,9 @@
 <template>
   <div class="rover-body">
-    <RoverMap v-if="this.edge" :mapSize="8" :xx="this.xx+1" :yy="this.yy+1"
-              :direction="this.direction" :edge="this.edge"></RoverMap>
+    <RoverMap v-if="this.edgeXSet" :mapSize="8" :xx="this.xx+1" :yy="this.yy+1"
+              :direction="this.direction" :edgeXSet="this.edgeXSet" :edgeYSet="this.edgeYSet"
+              :edgeX="this.edgeX" :edgeY="this.edgeY"
+    ></RoverMap>
     <MoveRoverBtn :rover_step="this.roverStep" :current_step="this.currentStep"
                   :status_text_format="this.statusTextFormat"></MoveRoverBtn>
   </div>
@@ -28,7 +30,10 @@ export default {
       mapData: null,
       roverStatus: null,
       apiUrl: config.$api_url,
-      edge: [],
+      edgeX: 0,
+      edgeY: 0,
+      edgeXSet: [],
+      edgeYSet: [],
     }
   },
   mounted() {
@@ -37,10 +42,31 @@ export default {
   },
   methods: {
     makeNewMap() {
-      let maxEdge = 8
-      for (let i = maxEdge; i > 0; i--) {
-        this.edge.push(i);
+      this.edgeXSet = []
+      this.makeEdgeArray(this.edgeXSet, this.edgeX, this.xx, false)
+      this.edgeYSet = []
+      this.makeEdgeArray(this.edgeYSet, this.edgeY, this.yy, true)
+    },
+    makeEdgeArray(edgeSet, edge, position, backWord) {
+      let round = position / 8
+      let roundUP = Math.ceil(round);
+      let roundDown = Math.floor(round);
+      let maxEdge = 8 * roundUP
+      let minEdge = 8 * roundDown
+      if (maxEdge < 8) maxEdge = 8
+
+      if (backWord) {
+        for (let i = maxEdge; i > minEdge; i--) {
+          edgeSet.push(i);
+        }
+        this.edgeX = minEdge
+      } else {
+        for (let i = minEdge; i < maxEdge; i++) {
+          edgeSet.push(i);
+        }
+        this.edgeY = minEdge
       }
+
     },
     async getMapInfo() {
       try {
@@ -51,7 +77,6 @@ export default {
         this.mapData = res.data
         this.mapSize = this.mapData.map_size
         this.roverStep = this.mapData.rover_step
-        this.makeNewMap()
       } catch (err) {
         alert(err)
       }
@@ -68,6 +93,7 @@ export default {
         this.yy = this.roverStatus.status.position_y
         this.direction = this.roverStatus.status.direction
         this.statusTextFormat = this.roverStatus.status_text_format
+        this.makeNewMap()
       } catch (err) {
         alert(err)
       }

@@ -4,13 +4,16 @@
       <h5 class="directionNSymbol">N</h5>
 
       <table>
-        <tr v-for="positionY in edge" :key="positionY">
-          <td v-for="positionX in edge.length" :key="positionX">
-            <div v-if="positionX === xx && positionY === yy">
+        <tr v-for="positionY in edgeYSet" :key="positionY">
+          <td v-for="positionX in edgeXSet" :key="positionX">
+            <div v-if="positionX === xx-1 && positionY === yy">
               <img src="@/assets/rover_pic.jpeg" :class="`direction${direction}`" width="20px" height="20px"/>
             </div>
             <div v-else>
-              <div style="width: 20px;height: 30px ">&nbsp;</div>
+              <div style="width: 20px;height: 30px ">
+<!--                {{ positionX }} , {{ positionY }}-->
+                &nbsp;
+              </div>
             </div>
           </td>
         </tr>
@@ -19,8 +22,8 @@
       <h5 class="directionWSymbol">W</h5>
       <h5 class="directionESymbol">E</h5>
 
-      <h5 class="init_map_x">{{ EdgeXX }}</h5>
-      <h5 class="init_map_y">{{ EdgeYY }}</h5>
+      <h5 class="init_map_x">{{ edgeX }}</h5>
+      <h5 class="init_map_y">{{ edgeY }}</h5>
     </div>
     <div v-else>
       loading
@@ -31,14 +34,7 @@
 <script>
 export default {
   name: 'RoverMap',
-  props: ['mapSize', 'xx', 'yy', 'direction', 'edge'],
-  data() {
-    return {
-      EdgeXX: 0,
-      EdgeYY: 0,
-    }
-  },
-
+  props: ['xx', 'yy', 'direction', 'edgeXSet', 'edgeYSet', 'edgeX', 'edgeY'],
 }
 </script>
 <style>
