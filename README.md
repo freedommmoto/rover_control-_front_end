@@ -1,5 +1,5 @@
 # Rover Control Front-End
-![](S__5989736.jpg | width=100)
+![](S__5989736.jpg)
 
 
 ## Project setup
